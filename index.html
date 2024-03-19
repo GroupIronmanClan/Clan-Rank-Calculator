@@ -1,10 +1,102 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>My Cool Website</title>
-   </head>
-   <body>
-      <h1>Welcome to my website! ⭐️</h1>
-      <p>How was your day? 🎉</p>
-   </body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Score Calculator</title>
+<style>
+    /* Set background color */
+    body {
+        background-color: #d8ccb4;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    /* Some basic styling */
+    details {
+        margin-bottom: 10px;
+    }
+    summary {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .sub-options {
+        margin-left: 20px;
+    }
+</style>
+</head>
+<body>
+<h1>Score Calculator</h1>
+
+<input type="checkbox" id="quest-cape" value="1" onclick="checkRelated(this)"> <label for="quest-cape">Quest Cape</label><br>
+
+<details>
+    <summary>Diary Tasks</summary>
+    <div class="sub-options">
+        <input type="checkbox" id="diary-150" value="1" onclick="checkRelated(this)"> <label for="diary-150">150 Diary Tasks</label><br>
+        <input type="checkbox" id="diary-300" value="1" onclick="checkRelated(this)"> <label for="diary-300">300 Diary Tasks</label><br>
+        <input type="checkbox" id="diary-400" value="1" onclick="checkRelated(this)"> <label for="diary-400">400 Diary Tasks</label><br>
+        <input type="checkbox" id="diary-492" value="1" onclick="checkRelated(this)"> <label for="diary-492">492 Diary Tasks</label><br>
+    </div>
+</details>
+
+<details>
+    <summary>Combat Achievements</summary>
+    <div class="sub-options">
+        <input type="checkbox" id="easy-ca" value="1" onclick="checkRelated(this)"> <label for="easy-ca">Easy CA</label><br>
+        <input type="checkbox" id="med-ca" value="1" onclick="checkRelated(this)"> <label for="med-ca">Med CA</label><br>
+        <input type="checkbox" id="hard-ca" value="1" onclick="checkRelated(this)"> <label for="hard-ca">Hard CA</label><br>
+        <input type="checkbox" id="elite-ca" value="1" onclick="checkRelated(this)"> <label for="elite-ca">Elite CA</label><br>
+        <input type="checkbox" id="master-ca" value="1" onclick="checkRelated(this)"> <label for="master-ca">Master CA</label><br>
+        <input type="checkbox" id="gm-ca" value="1" onclick="checkRelated(this)"> <label for="gm-ca">GM CA</label><br>
+    </div>
+</details>
+
+<details>
+    <summary>Total Level</summary>
+    <div class="sub-options">
+        <input type="checkbox" id="total-1250" value="1" onclick="checkRelated(this)"> <label for="total-1250">1250 Total</label><br>
+        <input type="checkbox" id="total-1500" value="1" onclick="checkRelated(this)"> <label for="total-1500">1500 Total</label><br>
+        <input type="checkbox" id="total-1750" value="1" onclick="checkRelated(this)"> <label for="total-1750">1750 Total</label><br>
+        <input type="checkbox" id="total-2000" value="1" onclick="checkRelated(this)"> <label for="total-2000">2000 Total</label><br>
+        <input type="checkbox" id="total-2200" value="1" onclick="checkRelated(this)"> <label for="total-2200">2200 Total</label><br>
+        <input type="checkbox" id="total-2277" value="1" onclick="checkRelated(this)"> <label for="total-2277">2277 Total</label><br>
+    </div>
+</details>
+
+<details>
+    <summary>Clogs</summary>
+    <div class="sub-options">
+        <input type="checkbox" id="clogs-150" value="1" onclick="checkRelated(this)"> <label for="clogs-150">150 Clogs</label><br>
+        <input type="checkbox" id="clogs-300" value="1" onclick="checkRelated(this)"> <label for="clogs-300">300 Clogs</label><br>
+        <input type="checkbox" id="clogs-450" value="1" onclick="checkRelated(this)"> <label for="clogs-450">450 Clogs</label><br>
+        <input type="checkbox" id="clogs-600" value="1" onclick="checkRelated(this)"> <label for="clogs-600">600 Clogs</label><br>
+        <input type="checkbox" id="clogs-800" value="1" onclick="checkRelated(this)"> <label for="clogs-800">800 Clogs</label><br>
+        <input type="checkbox" id="clogs-1000" value="1" onclick="checkRelated(this)"> <label for="clogs-1000">1000 Clogs</label><br>
+    </div>
+</details>
+
+<button type="button" onclick="calculateScore()">Calculate Score</button>
+<p id="totalScore"></p>
+
+<script>
+    function checkRelated(checkbox) {
+        var relatedCheckboxes = checkbox.parentNode.querySelectorAll('input[type="checkbox"]');
+        var currentIndex = Array.from(relatedCheckboxes).indexOf(checkbox);
+        for (var i = 0; i < currentIndex; i++) {
+            relatedCheckboxes[i].checked = checkbox.checked;
+        }
+    }
+
+    function calculateScore() {
+        var totalScore = 0;
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(function(checkbox) {
+            totalScore += parseInt(checkbox.value);
+        });
+        document.getElementById('totalScore').textContent = "Total Points: " + totalScore;
+    }
+</script>
+</body>
 </html>
