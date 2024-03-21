@@ -60,7 +60,9 @@
         var relatedCheckboxes = document.querySelectorAll('input[type="checkbox"]');
         var currentIndex = Array.from(relatedCheckboxes).indexOf(checkbox);
         for (var i = 0; i < currentIndex; i++) {
-            relatedCheckboxes[i].checked = checkbox.checked;
+            if (relatedCheckboxes[i].id.startsWith(checkbox.id.split('-')[0])) {
+                relatedCheckboxes[i].checked = checkbox.checked;
+            }
         }
     }
 
