@@ -14,6 +14,7 @@ body {
   background-color: #e2dbc8;
   font-family: 'RuneScape', Arial, sans-serif;
   font-weight: bold;
+  padding: 10px; /* Add some padding to the body */
 }
 
 .container {
@@ -21,12 +22,14 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 100%; /* Ensure the container takes full width */
 }
 
 .switch-container {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Align the first row at the top */
+  flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
   margin-top: 20px;
   width: 100%; /* Ensure the container takes full width */
 }
@@ -81,10 +84,18 @@ input:checked + .slider:before {
   flex-direction: column;
   align-items: flex-start; /* Align along the left side */
   margin-right: 20px; /* Add some space between columns */
+  margin-bottom: 20px; /* Add bottom margin to separate columns */
+  flex: 1; /* Ensure columns grow to fill available space */
 }
 
 .column > * {
   margin-bottom: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .column {
+    margin-right: 10px; /* Reduce margin between columns for larger screens */
+  }
 }
 
 #score {
@@ -95,10 +106,10 @@ input:checked + .slider:before {
 #rank-container {
   display: flex;
   align-items: center; /* Center vertically */
+  margin-top: 20px; /* Add top margin to separate from switches */
 }
 
 #rank {
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -309,8 +320,8 @@ allSwitches.forEach(function(toggle) {
   });
 });
 
-setInterval(calculateScores, 2000);
-setInterval(updateRank, 2000);
+setInterval(calculateScores, 250);
+setInterval(updateRank, 250);
 </script>
 </body>
 </html>
