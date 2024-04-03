@@ -5,74 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toggle Buttons</title>
 <style>
-  body {
-    background-color: #e2dbc8;
-    font-family: Arial, sans-serif;
-  }
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .switch-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align the first row at the top */
-    margin-top: 20px;
-    width: 100%; /* Ensure the container takes full width */
-  }
-  .switch-label {
-    margin-left: 10px; /* Adjusted to be to the left of the toggle */
-  }
-  .switch {
-    display: flex;
-    align-items: center;
-  }
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  .slider {
-    position: relative;
-    cursor: pointer;
-    width: 60px;
-    height: 34px;
-    background-color: #ccc;
-    border-radius: 34px;
-    margin-left: 10px; /* Adjusted to be to the left of the label */
-  }
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: .4s;
-  }
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  .column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align along the left side */
-    margin-right: 20px; /* Add some space between columns */
-  }
-  .column > * {
-    margin-bottom: 10px;
-  }
-  #score {
-    margin-top: 20px;
-    font-weight: bold;
-  }
+@font-face {
+  font-family: 'RuneScape';
+  src: url('RuneScape.woff') format('woff');
+}
+
+body {
+  background-color: #e2dbc8;
+  font-family: 'RuneScape', Arial, sans-serif;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align the first row at the top */
+  margin-top: 20px;
+  width: 100%; /* Ensure the container takes full width */
+}
+
+.switch-label {
+  margin-left: 10px; /* Adjusted to be to the left of the toggle */
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: relative;
+  cursor: pointer;
+  width: 60px;
+  height: 34px;
+  background-color: #ccc;
+  border-radius: 34px;
+  margin-left: 10px; /* Adjusted to be to the left of the label */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align along the left side */
+  margin-right: 20px; /* Add some space between columns */
+}
+
+.column > * {
+  margin-bottom: 10px;
+}
+
+#score {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+#rank-container {
+  display: flex;
+  align-items: center; /* Center vertically */
+}
+
+#rank {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#rank-icon {
+  margin-left: 10px; /* Add space between rank text and icon */
+  width: 32px; /* Adjust size as needed */
+  height: 32px; /* Adjust size as needed */
+}
 </style>
 </head>
 <body>
@@ -205,37 +239,78 @@
     </div>
   </div>
   <div id="score">Score: 0</div>
+  <div id="rank-container">
+    <div id="rank">Your rank is: No rank</div>
+    <img src="" id="rank-icon" class="rank-icon" alt="Rank Icon">
+  </div>
 </div>
 <script>
-  function calculateScore() {
-    const switches = document.querySelectorAll('.switch input[type="checkbox"]');
-    let score = 0;
-    switches.forEach(function (toggle) {
-      if (toggle.checked) {
-        score++;
-      }
-    });
-    document.getElementById('score').textContent = 'Score: ' + score;
-  }
+const roleScores = {
+  "Noob": 0,
+  "Striker": 1,
+  "Ninja": 3,
+  "Inquisitor": 5,
+  "Warrior": 8,
+  "Barbarian": 11,
+  "Berserker": 14,
+  "Infantry": 17,
+  "Skulled": 19,
+  "Beast": 21,
+  "Imp": 22
+};
 
-  setInterval(calculateScore, 2000);
-
-  // Add event listeners to all toggle switches
-  const allSwitches = document.querySelectorAll('.switch input[type="checkbox"]');
-  allSwitches.forEach(function(toggle) {
-    toggle.addEventListener('click', function() {
-      if (toggle.nextElementSibling.textContent !== 'Quest Cape') { // Check if the toggle is not the "Quest Cape" toggle
-        const column = toggle.closest('.column');
-        const togglesInColumn = column.querySelectorAll('.switch input[type="checkbox"]');
-        let toggleIndex = Array.from(togglesInColumn).indexOf(toggle);
-
-        // Turn on/off all toggles above the clicked toggle in the same column
-        for (let i = 0; i < toggleIndex; i++) {
-          togglesInColumn[i].checked = toggle.checked;
-        }
-      }
-    });
+function calculateScores() {
+  const toggles = document.querySelectorAll('.switch input[type="checkbox"]');
+  let score = 0;
+  toggles.forEach(function(toggle) {
+    if (toggle.checked) {
+      score++;
+    }
   });
+  document.getElementById('score').textContent = 'Score: ' + score;
+}
+
+function calculateRank(score) {
+  let rank = "No rank";
+  for (const role in roleScores) {
+    if (score >= roleScores[role]) {
+      rank = role;
+    } else {
+      break;
+    }
+  }
+  return rank;
+}
+
+function updateRank() {
+  const score = parseInt(document.getElementById('score').textContent.split(": ")[1]);
+  const rank = calculateRank(score);
+  document.getElementById('rank').textContent = 'Your rank is: ' + rank;
+
+  // Update the rank icon
+  const icon = document.getElementById('rank-icon');
+  icon.src = './icons/' + rank + '.png';
+}
+
+function synchronizeToggles(toggle) {
+  const column = toggle.closest('.column');
+  const togglesInColumn = column.querySelectorAll('.switch input[type="checkbox"]');
+  const toggleIndex = Array.from(togglesInColumn).indexOf(toggle);
+
+  for (let i = 0; i < toggleIndex; i++) {
+    togglesInColumn[i].checked = toggle.checked;
+  }
+}
+
+const allSwitches = document.querySelectorAll('.switch input[type="checkbox"]');
+allSwitches.forEach(function(toggle) {
+  toggle.addEventListener('click', function() {
+    synchronizeToggles(toggle);
+  });
+});
+
+setInterval(calculateScores, 2000);
+setInterval(updateRank, 2000);
 </script>
 </body>
 </html>
