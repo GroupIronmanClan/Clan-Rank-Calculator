@@ -3,87 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Score Calculator v2</title>
+<title>Toggle Buttons</title>
 <style>
-    /* Set background color */
-    body {
-        background-color: #d8ccb4;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-    }
-
-    /* Some basic styling */
-    summary {
-        cursor: pointer;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+  body {
+    background-color: #e2dbc8;
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .switch-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align the first row at the top */
+    margin-top: 20px;
+    width: 100%; /* Ensure the container takes full width */
+  }
+  .switch-label {
+    margin-left: 10px; /* Adjusted to be to the left of the toggle */
+  }
+  .switch {
+    display: flex;
+    align-items: center;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: relative;
+    cursor: pointer;
+    width: 60px;
+    height: 34px;
+    background-color: #ccc;
+    border-radius: 34px;
+    margin-left: 10px; /* Adjusted to be to the left of the label */
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align along the left side */
+    margin-right: 20px; /* Add some space between columns */
+  }
+  .column > * {
+    margin-bottom: 10px;
+  }
+  #score {
+    margin-top: 20px;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
-<h1>Score Calculator</h1>
-
-<input type="checkbox" id="quest-cape" value="1" onclick="checkRelated(this)"> <label for="quest-cape">Quest Cape</label><br>
-
-<input type="checkbox" id="diary-150" value="1" onclick="checkRelated(this)"> <label for="diary-150">150 Diary Tasks</label><br>
-<input type="checkbox" id="diary-300" value="1" onclick="checkRelated(this)"> <label for="diary-300">300 Diary Tasks</label><br>
-<input type="checkbox" id="diary-400" value="1" onclick="checkRelated(this)"> <label for="diary-400">400 Diary Tasks</label><br>
-<input type="checkbox" id="diary-492" value="1" onclick="checkRelated(this)"> <label for="diary-492">492 Diary Tasks</label><br>
-
-<input type="checkbox" id="easy-ca" value="1" onclick="checkRelated(this)"> <label for="easy-ca">Easy CA</label><br>
-<input type="checkbox" id="med-ca" value="1" onclick="checkRelated(this)"> <label for="med-ca">Med CA</label><br>
-<input type="checkbox" id="hard-ca" value="1" onclick="checkRelated(this)"> <label for="hard-ca">Hard CA</label><br>
-<input type="checkbox" id="elite-ca" value="1" onclick="checkRelated(this)"> <label for="elite-ca">Elite CA</label><br>
-<input type="checkbox" id="master-ca" value="1" onclick="checkRelated(this)"> <label for="master-ca">Master CA</label><br>
-<input type="checkbox" id="gm-ca" value="1" onclick="checkRelated(this)"> <label for="gm-ca">GM CA</label><br>
-
-<input type="checkbox" id="total-1250" value="1" onclick="checkRelated(this)"> <label for="total-1250">1250 Total</label><br>
-<input type="checkbox" id="total-1500" value="1" onclick="checkRelated(this)"> <label for="total-1500">1500 Total</label><br>
-<input type="checkbox" id="total-1750" value="1" onclick="checkRelated(this)"> <label for="total-1750">1750 Total</label><br>
-<input type="checkbox" id="total-2000" value="1" onclick="checkRelated(this)"> <label for="total-2000">2000 Total</label><br>
-<input type="checkbox" id="total-2200" value="1" onclick="checkRelated(this)"> <label for="total-2200">2200 Total</label><br>
-<input type="checkbox" id="total-2277" value="1" onclick="checkRelated(this)"> <label for="total-2277">2277 Total</label><br>
-
-<input type="checkbox" id="clogs-150" value="1" onclick="checkRelated(this)"> <label for="clogs-150">150 Clogs</label><br>
-<input type="checkbox" id="clogs-300" value="1" onclick="checkRelated(this)"> <label for="clogs-300">300 Clogs</label><br>
-<input type="checkbox" id="clogs-450" value="1" onclick="checkRelated(this)"> <label for="clogs-450">450 Clogs</label><br>
-<input type="checkbox" id="clogs-600" value="1" onclick="checkRelated(this)"> <label for="clogs-600">600 Clogs</label><br>
-<input type="checkbox" id="clogs-800" value="1" onclick="checkRelated(this)"> <label for="clogs-800">800 Clogs</label><br>
-<input type="checkbox" id="clogs-1000" value="1" onclick="checkRelated(this)"> <label for="clogs-1000">1000 Clogs</label><br>
-
-<button type="button" onclick="calculateScore()">Calculate Score</button>
-<p id="totalScore"></p>
-
+<div class="container">
+  <div class="switch-container">
+    <div class="column" style="align-self: flex-start;">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Quest Cape</span>
+      </label>
+    </div>
+    <div class="column">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">150 Diary Tasks</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">300 Diary Tasks</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">400 Diary Tasks</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">492 Diary Tasks</span>
+      </label>
+    </div>
+    <div class="column">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">1250 Total</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">1500 Total</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">1750 Total</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">2000 Total</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">2200 Total</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">2277 Total</span>
+      </label>
+    </div>
+    <div class="column">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">150 Clogs</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">300 Clogs</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">450 Clogs</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">600 Clogs</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">800 Clogs</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">1000 Clogs</span>
+      </label>
+    </div>
+    <div class="column">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Easy CA</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Med CA</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Hard CA</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Elite CA</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">Master CA</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        <span class="switch-label">GM CA</span>
+      </label>
+    </div>
+  </div>
+  <div id="score">Score: 0</div>
+</div>
 <script>
-    function checkRelated(checkbox) {
-        var relatedCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-        var currentIndex = Array.from(relatedCheckboxes).indexOf(checkbox);
-        for (var i = 0; i < currentIndex; i++) {
-            if (relatedCheckboxes[i].id.startsWith(checkbox.id.split('-')[0])) {
-                relatedCheckboxes[i].checked = checkbox.checked;
-            }
-        }
-    }
+  function calculateScore() {
+    const switches = document.querySelectorAll('.switch input[type="checkbox"]');
+    let score = 0;
+    switches.forEach(function (toggle) {
+      if (toggle.checked) {
+        score++;
+      }
+    });
+    document.getElementById('score').textContent = 'Score: ' + score;
+  }
 
-    function calculateScore() {
-        var totalScore = 0;
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        checkboxes.forEach(function(checkbox) {
-            totalScore += parseInt(checkbox.value);
-        });
-        document.getElementById('totalScore').textContent = "Total Points: " + totalScore + " (Tier: " + getTier(totalScore) + ")";
-    }
+  setInterval(calculateScore, 2000);
 
-    function getTier(score) {
-        var thresholds = [0, 1, 2, 4, 6, 8, 11, 14, 17, 19, 21, 22];
-        for (var i = thresholds.length - 1; i >= 0; i--) {
-            if (score >= thresholds[i]) {
-                return i;
-            }
+  // Add event listeners to all toggle switches
+  const allSwitches = document.querySelectorAll('.switch input[type="checkbox"]');
+  allSwitches.forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+      if (toggle.nextElementSibling.textContent !== 'Quest Cape') { // Check if the toggle is not the "Quest Cape" toggle
+        const column = toggle.closest('.column');
+        const togglesInColumn = column.querySelectorAll('.switch input[type="checkbox"]');
+        let toggleIndex = Array.from(togglesInColumn).indexOf(toggle);
+
+        // Turn on/off all toggles above the clicked toggle in the same column
+        for (let i = 0; i < toggleIndex; i++) {
+          togglesInColumn[i].checked = toggle.checked;
         }
-        return 0; // Default tier
-    }
+      }
+    });
+  });
 </script>
 </body>
 </html>
